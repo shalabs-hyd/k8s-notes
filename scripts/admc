@@ -1,0 +1,36 @@
+#!/bin/bash
+
+#
+# admc - Admission Controller Inspector
+#
+# Purpose : Lists default-enabled Kubernetes admission plugins
+# Source  : Live kube-apiserver introspection
+# Scope   : Self-managed clusters (kind / kubeadm / on-prem)
+#
+# Author  : Syed Hamid Ali
+# Version : 1.0
+# Date    : 2026-01-26
+#
+# Usage   : admc
+#
+
+set -euo pipefail
+
+NAMESPACE="kube-system"
+
+APISERVER_POD=$(kubectl get pods -n "$NAMESPACE" \
+  -l component=kube-apiserver \
+  -o jsonpath='{.items[0].metadata.name}')
+
+if [[ -z "$APISERVER_POD" ]]; then
+  echo "❌ kube-apiserver pod not found in $NAMESPACE"
+  exit 1
+fi
+
+kubectl exec -it "$APISERVER_POD" -n "$NAMESPACE" -- kube-apiserver -h \
+| grep -E "^\s+--enable-admission-plugins" \
+| awk -F'default enabled ones' '{print $2}' \
+| awk -F')' '{print $1}' \
+| sed 's/(//g' \
+| tr ',' '\n' \
+| nl -w2 -s'] '

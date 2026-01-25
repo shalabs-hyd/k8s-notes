@@ -1,0 +1,9 @@
+Within Kubernetes Cluster, every pod can reach every other pod, this is accomplish by deploying a pod networking solution to the cluster.
+
+Kube-Proxy is a process that runs on each node in the kubernetes cluster.
+
+it is run as a daemon-set, ensuring that atleast one pod of kube-proxy runs per node
+
+Kube-proxy monitors for new services in the cluster. Services are virtual objects residing in memory and have an IP associated it them, they
+frontend a set of pods based on label selector mechanism. Kube-proxy runs on all nodes of a cluster and when a service is created, it creates 
+a ruleset to forward all traffic to the service to a certain IP and then to the backend pods. It uses IP tables to do so.

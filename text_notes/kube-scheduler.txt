@@ -1,0 +1,11 @@
+kube-scheduler is responsible for scheduling pods on nodes.
+
+The kube-scheduler is only responsible for deciding which pod goes on which node. It doesn't actually place the pod on the nodes, 
+that's the job of the kubelet.
+
+Why do you need a Scheduler?
+
+When there are many nodes and many containers we need to be sure that the right pod/container ends up on the right node
+
+the capcacity constrainsts of a node and pod are checked before pod allocation to worker nodes
+

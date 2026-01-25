@@ -1,0 +1,112 @@
+FROM THE MASTER NODE
+
+root@k8s-master:~# ETCDCTL_API=3  etcdctl --endpoints https://172.31.103.219:2379 --cacert /etc/kubernetes/pki/etcd/ca.crt --cert /etc/kubernetes/pki/etcd/server.crt  --key /etc/kubernetes/pki/etcd/server.key get / --prefix --keys-only | grep -v "^$" | head -n 10
+/registry/apiextensions.k8s.io/customresourcedefinitions/bgpconfigurations.crd.projectcalico.org
+/registry/apiextensions.k8s.io/customresourcedefinitions/bgppeers.crd.projectcalico.org
+/registry/apiextensions.k8s.io/customresourcedefinitions/blockaffinities.crd.projectcalico.org
+/registry/apiextensions.k8s.io/customresourcedefinitions/caliconodestatuses.crd.projectcalico.org
+/registry/apiextensions.k8s.io/customresourcedefinitions/clusterinformations.crd.projectcalico.org
+/registry/apiextensions.k8s.io/customresourcedefinitions/felixconfigurations.crd.projectcalico.org
+/registry/apiextensions.k8s.io/customresourcedefinitions/globalnetworkpolicies.crd.projectcalico.org
+/registry/apiextensions.k8s.io/customresourcedefinitions/globalnetworksets.crd.projectcalico.org
+/registry/apiextensions.k8s.io/customresourcedefinitions/hostendpoints.crd.projectcalico.org
+/registry/apiextensions.k8s.io/customresourcedefinitions/ipamblocks.crd.projectcalico.org
+
+
+USING THE kubectl exec
+
+cloud_user@k8s-master:~$ kubectl exec etcd-k8s-master.shalab.io -n kube-system -- sh -c "ETCDCTL_API=3 etcdctl  --cacert /etc/kubernetes/pki/etcd/ca.crt --key /etc/kubernetes/pki/etcd/server.key --cert /etc/kubernetes/pki/etcd/server.crt get / --prefix=true --keys-only" | grep -v "^$" | tail -n 10
+/registry/serviceaccounts/kube-system/service-account-controller
+/registry/serviceaccounts/kube-system/service-controller
+/registry/serviceaccounts/kube-system/statefulset-controller
+/registry/serviceaccounts/kube-system/token-cleaner
+/registry/serviceaccounts/kube-system/ttl-after-finished-controller
+/registry/serviceaccounts/kube-system/ttl-controller
+/registry/services/endpoints/default/kubernetes
+/registry/services/endpoints/kube-system/kube-dns
+/registry/services/specs/default/kubernetes
+/registry/services/specs/kube-system/kube-dns
+
+
+
+kubectl exec -n kube-system etcd-shalabs-cluster-control-plane -- \
+  etcdctl --endpoints=https://127.0.0.1:2379 \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  get / --prefix --keys-only | grep -v "^$"
+
+cloud_user@k8s-master:~$ kubectl exec etcd-k8s-master.shalab.io -n kube-system -- sh -c "ETCDCTL_API=3 etcdctl  --cacert /etc/kubernetes/pki/etcd/ca.crt --key /etc/kubernetes/pki/etcd/server.key --cert /etc/kubernetes/pki/etcd/server.crt endpoint health"
+127.0.0.1:2379 is healthy: successfully committed proposal: took = 10.916119ms
+
+
+
+COMMANDS:
+        alarm disarm            Disarms all alarms
+        alarm list              Lists all alarms
+        auth disable            Disables authentication
+        auth enable             Enables authentication
+        auth status             Returns authentication status
+        check datascale         Check the memory usage of holding data for different workloads on a given server endpoint.
+        check perf              Check the performance of the etcd cluster
+        compaction              Compacts the event history in etcd
+        defrag                  Defragments the storage of the etcd members with given endpoints
+        del                     Removes the specified key or range of keys [key, range_end)
+        elect                   Observes and participates in leader election
+        endpoint hashkv         Prints the KV history hash for each endpoint in --endpoints
+        endpoint health         Checks the healthiness of endpoints specified in `--endpoints` flag
+        endpoint status         Prints out the status of endpoints specified in `--endpoints` flag
+        get                     Gets the key or a range of keys
+        help                    Help about any command
+        lease grant             Creates leases
+        lease keep-alive        Keeps leases alive (renew)
+        lease list              List all active leases
+        lease revoke            Revokes leases
+        lease timetolive        Get lease information
+        lock                    Acquires a named lock
+        make-mirror             Makes a mirror at the destination etcd cluster
+        member add              Adds a member into the cluster
+        member list             Lists all members in the cluster
+        member promote          Promotes a non-voting member in the cluster
+        member remove           Removes a member from the cluster
+        member update           Updates a member in the cluster
+        move-leader             Transfers leadership to another etcd cluster member.
+        put                     Puts the given key into the store
+        role add                Adds a new role
+        role delete             Deletes a role
+        role get                Gets detailed information of a role
+        role grant-permission   Grants a key to a role
+        role list               Lists all roles
+        role revoke-permission  Revokes a key from a role
+        snapshot restore        Restores an etcd member snapshot to an etcd directory
+        snapshot save           Stores an etcd node backend snapshot to a given file
+        snapshot status         [deprecated] Gets backend snapshot status of a given file
+        txn                     Txn processes all the requests in one transaction
+        user add                Adds a new user
+        user delete             Deletes a user
+        user get                Gets detailed information of a user
+        user grant-role         Grants a role to a user
+        user list               Lists all users
+        user passwd             Changes password of user
+        user revoke-role        Revokes a role from a user
+        version                 Prints the version of etcdctl
+        watch                   Watches events stream on keys or prefixes
+
+** runs on TCP 2379 
+
+⛵ -> ☸  kind-shalabs-cluster (default) in /project/k8s
+❯ export ATTR='--endpoints=https://127.0.0.1:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key'
+
+⛵ -> ☸  kind-shalabs-cluster (default) in /project/k8s
+❯ kubectl exec -n kube-system etcd-shalabs-cluster-control-plane -- sh -c "etcdctl $ATTR member list"
+72f3761af4357e92, started, shalabs-cluster-control-plane, https://172.20.0.4:2380, https://172.20.0.2:2379, false
+
+❯ export ATTR="--endpoints=https://127.0.0.1:2379 \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key"
+
+
+⛵ -> ☸  kind-shalabs-cluster (default) in /project/k8s
+❯ kubectl exec -n kube-system etcd-shalabs-cluster-control-plane -- sh -c "etcdctl $ATTR member list"
+72f3761af4357e92, started, shalabs-cluster-control-plane, https://172.20.0.4:2380, https://172.20.0.2:2379, false

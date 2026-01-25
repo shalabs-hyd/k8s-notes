@@ -1,0 +1,10 @@
+
+LABEL the Nodes
+
+kubectl label --overwrite nodes k8s-worker01.shalabs.in kubernetes.io/role=worker-node01
+kubectl label --overwrite nodes k8s-worker02.shalabs.in kubernetes.io/role=worker-node02
+
+
+
+kubeadm join 172.31.14.112:6443 --token 161771.8e6pbsbvbyccdqcg \
+        --discovery-token-ca-cert-hash sha256:223dfb0eba14867b1e89871f9a376ce1dec0022c4075a5a7f9b37013a653dc16

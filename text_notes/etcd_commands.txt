@@ -1,0 +1,18 @@
+export attributes
+
+export ATTR="--endpoints=https://127.0.0.1:2379 \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key"
+
+  kubectl exec -n kube-system etcd-shalabs-cluster-control-plane -- sh -c "etcdctl $ATTR check perf"
+
+  kubectl exec -n kube-system etcd-shalabs-cluster-control-plane -- sh -c "etcdctl $ATTR member list"
+
+  kubectl exec -n kube-system etcd-shalabs-cluster-control-plane -- sh -c "etcdctl $ATTR endpoint status"
+https://127.0.0.1:2379, 72f3761af4357e92, 3.5.12, 23 MB, true, false, 423, 11197507, 11197507,
+
+kubectl exec -n kube-system etcd-shalabs-cluster-control-plane -- sh -c "etcdctl $ATTR lease list"
+found 2 leases
+7e929ad76c0021a2
+7e929ad76c0021c8

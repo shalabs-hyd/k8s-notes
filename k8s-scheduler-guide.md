@@ -1,20 +1,20 @@
 # Kubernetes Scheduler and Custom Profiles: A Comprehensive Guide for CKA Candidates
 
 ## Table of Contents
-1. [Introduction to the Kubernetes Scheduler](#introduction)
-2. [The Scheduling Lifecycle](#scheduling-lifecycle)
-3. [Understanding Scheduler Plugins](#scheduler-plugins)
-4. [Priority-Based Scheduling](#priority-scheduling)
-5. [Multiple Scheduler Profiles](#scheduler-profiles)
-6. [Deploying Custom Schedulers](#deploying-schedulers)
-7. [Observability and Troubleshooting](#troubleshooting)
+1. [Introduction to the Kubernetes Scheduler](#introduction-to-the-kubernetes-scheduler)
+2. [The Scheduling Lifecycle](#the-scheduling-lifecycle)
+3. [Understanding Scheduler Plugins](#understanding-scheduler-plugins)
+4. [Priority-Based Scheduling](#priority-based-scheduling)
+5. [Multiple Scheduler Profiles](#multiple-scheduler-profiles)
+6. [Deploying Custom Schedulers](#deploying-custom-schedulers)
+7. [Observability and Troubleshooting](#observability-and-troubleshooting)
 8. [Best Practices](#best-practices)
-9. [CKA Exam Focus Areas](#cka-exam-focus)
-10. [Hands-On Lab Exercises](#hands-on-labs)
+9. [CKA Exam Focus Areas](#cka-exam-focus-areas)
+10. [Hands-On Lab Exercises](#hands-on-lab-exercises)
 
 ---
 
-## Introduction to the Kubernetes Scheduler {#introduction}
+## Introduction to the Kubernetes Scheduler
 
 ### What is the Scheduler?
 
@@ -53,7 +53,7 @@ The **kube-scheduler** is a critical control plane component responsible for ass
 
 ---
 
-## The Scheduling Lifecycle {#scheduling-lifecycle}
+## The Scheduling Lifecycle
 
 ### Overview: From Pod Creation to Node Assignment
 
@@ -198,7 +198,7 @@ Pod requests: 2 CPU, 4Gi RAM
 
 ---
 
-## Understanding Scheduler Plugins {#scheduler-plugins}
+## Understanding Scheduler Plugins
 
 ### The Plugin Architecture
 
@@ -309,7 +309,7 @@ profiles:
 
 ---
 
-## Priority-Based Scheduling {#priority-scheduling}
+## Priority-Based Scheduling
 
 ### How Priority Affects Scheduling
 
@@ -406,7 +406,7 @@ preemptionPolicy: Never  # Will NOT evict other Pods
 
 ---
 
-## Multiple Scheduler Profiles {#scheduler-profiles}
+## Multiple Scheduler Profiles
 
 ### Why Multiple Profiles?
 
@@ -532,7 +532,7 @@ spec:
 
 ---
 
-## Deploying Custom Schedulers {#deploying-schedulers}
+## Deploying Custom Schedulers
 
 ### Deployment Methods Overview
 
@@ -817,7 +817,7 @@ sudo systemctl status kube-scheduler
 
 ---
 
-## Observability and Troubleshooting {#troubleshooting}
+## Observability and Troubleshooting
 
 ### Verifying Scheduler Assignment
 
@@ -1243,7 +1243,7 @@ metadata:
 
 ---
 
-## CKA Exam Focus Areas {#cka-exam-focus}
+## CKA Exam Focus Areas
 
 ### What You Must Know
 
@@ -1401,7 +1401,7 @@ kubectl get events -o wide
 
 ---
 
-## Hands-On Lab Exercises {#hands-on-labs}
+## Hands-On Lab Exercises
 
 ### Lab 1: Creating Your First Custom Scheduler
 
